@@ -286,6 +286,17 @@
   .lb-info strong { font-size: 16px; font-weight: 500; display: block; margin-bottom: 4px; }
   .lb-info span { font-size: 13px; opacity: 0.6; }
 
+  /* Rating */
+  .rating-row { display: flex; align-items: center; gap: 7px; }
+  .stars { display: flex; gap: 2px; }
+  .star { font-size: 13px; line-height: 1; }
+  .star.full { color: #f5a623; }
+  .star.half { color: #f5a623; opacity: 0.5; }
+  .star.empty { color: #ddd; }
+  .rating-num { font-size: 13px; font-weight: 700; color: var(--text); }
+  .rating-src { font-size: 11px; color: var(--text3); }
+  .rating-none { font-size: 12px; color: var(--text3); }
+
   .empty {
     grid-column: 1 / -1;
     text-align: center;
@@ -308,12 +319,6 @@
   <div class="eyebrow">가온 사내 뉴스레터 · 2026년 3월</div>
   <h1 class="site-title">야탑 숨은 카페 지도 ☕</h1>
   <p class="site-sub">임직원이 직접 추천하는 진짜 맛집 — 함께 가온</p>
-  <div class="stats">
-    <div class="stat"><div class="stat-num">24</div><div class="stat-label">총 추천 수</div></div>
-    <div class="stat"><div class="stat-num">16</div><div class="stat-label">카페 수</div></div>
-    <div class="stat"><div class="stat-num">10</div><div class="stat-label">참여 팀</div></div>
-    <div class="stat"><div class="stat-num">5분~</div><div class="stat-label">사옥 최단 거리</div></div>
-  </div>
 </header>
 
 <div class="tabs-wrap">
@@ -348,20 +353,13 @@ function ac(name) {
 
 const cafes = [
   {
-    name: '웨더베인', location: '도보 약 15분',
-    menu: ['크림라떼', '흑임자 라떼'],
-    quote: '야탑역에 몇 안 되는 보물 같은 곳이에요! 분위기도 디저트류도 최고예요.',
-    recs: [{ name: '윤이슬', team: '마케팅팀' }, { name: '형세희', team: '마케팅팀' }],
-    solo: true, together: true, times: ['오후', '주말', '점심'],
-    imgs: ['https://i.imgur.com/egei4zy.jpeg', 'https://i.imgur.com/eeGUgaJ.jpeg', 'https://i.imgur.com/U3p45GN.jpeg']
-  },
-  {
     name: '커피예가', location: '야탑동 321-5 / 도보 10분',
     menu: ['핸드드립 커피', '콜드브루'],
     quote: '스타벅스 가격으로 핸드드립! 16년간 사랑받아온 로스팅 커피.',
     recs: [{ name: '정승진', team: 'PLUME팀' }, { name: '문병기', team: 'RG팀' }],
     solo: false, together: true, times: ['오후', '퇴근 후', '주말'],
-    imgs: ['https://i.imgur.com/GptQEEv.jpeg', 'https://i.imgur.com/He007bx.jpeg', 'https://i.imgur.com/aeiPzYK.jpeg']
+    imgs: ['https://i.imgur.com/GptQEEv.jpeg', 'https://i.imgur.com/He007bx.jpeg', 'https://i.imgur.com/aeiPzYK.jpeg'],
+    rating: 2.6
   },
   {
     name: '카페 종화', location: '이매로89번길 24 / 차량 5분',
@@ -369,14 +367,16 @@ const cafes = [
     quote: '인테리어가 예쁘고 엄청 큰 강아지가 있어서 진짜 나만 가고 싶지만…',
     recs: [{ name: '전태민', team: '공공지원팀' }],
     solo: true, together: true, times: ['퇴근 후', '주말'],
-    imgs: ['https://i.imgur.com/pitCCTL.jpeg', 'https://i.imgur.com/JrX2S0U.jpeg', 'https://i.imgur.com/XqrDsmf.jpeg']
+    imgs: ['https://i.imgur.com/pitCCTL.jpeg', 'https://i.imgur.com/JrX2S0U.jpeg', 'https://i.imgur.com/XqrDsmf.jpeg'],
+    rating: 4.6
   },
   {
     name: '라리쉐뜨', location: '야탑동 345-2 / 도보 10분',
     menu: ['콜드브루', '인절미와플', '단호박식혜'],
     quote: '사장님과 직접 소통하며 시그니처 메뉴를 즐길 수 있는 따뜻함이 이곳만의 매력.',
     recs: [{ name: '김재권', team: '국내2사업그룹' }],
-    solo: false, together: true, times: ['점심'], imgs: []
+    solo: false, together: true, times: ['점심'], imgs: [],
+    rating: 3.6
   },
   {
     name: '매머드익스프레스 야탑역점', location: '야탑역 1번 출구 1분',
@@ -384,7 +384,8 @@ const cafes = [
     quote: '앱 미리 예약 주문 필수! 주에 2~3번 출근길 필수 코스.',
     recs: [{ name: '신석환', team: '국내검증팀' }],
     solo: true, together: true, times: ['출근 전'],
-    imgs: ['https://i.imgur.com/FTwLK9y.jpeg']
+    imgs: ['https://i.imgur.com/FTwLK9y.jpeg'],
+    rating: 5.0
   },
   {
     name: '팀홀튼 야탑점', location: '야탑역 4번 출구 도보 1~2분',
@@ -392,14 +393,16 @@ const cafes = [
     quote: '한국에 몇 안 되는 팀홀튼이 회사 근처에! 메이플 디저트가 묘하게 중독성 있어요.',
     recs: [{ name: '전승원', team: '북미팀' }, { name: '조아라', team: 'QE' }],
     solo: true, together: true, times: ['오후', '점심', '퇴근 후', '주말'],
-    imgs: ['https://i.imgur.com/zY1Ypnp.jpeg', 'https://i.imgur.com/iZzNofa.jpeg', 'https://i.imgur.com/XXxJIbm.jpeg']
+    imgs: ['https://i.imgur.com/zY1Ypnp.jpeg', 'https://i.imgur.com/iZzNofa.jpeg', 'https://i.imgur.com/XXxJIbm.jpeg'],
+    rating: 2.5
   },
   {
     name: '모모나디저트샵', location: '야탑로69번길 21 / 도보 10분',
     menu: ['아몬드 크림라떼', '딸기케이크'],
     quote: '케이크 선물이 필요하신 분들 여기서 주문하세요! 맛과 친절함 보장.',
     recs: [{ name: '김현정', team: 'PI팀' }],
-    solo: true, together: true, times: ['퇴근 후', '주말'], imgs: []
+    solo: true, together: true, times: ['퇴근 후', '주말'], imgs: [],
+    rating: 4.7
   },
   {
     name: '비디778', location: '야탑동 36-2',
@@ -407,7 +410,8 @@ const cafes = [
     quote: '건물 외관도 예쁘고 인테리어도 깔끔해요. 야탑 유일무이 있어 보이는 카페!',
     recs: [{ name: '최슬아', team: '물류팀' }],
     solo: true, together: true, times: ['점심', '퇴근 후'],
-    imgs: ['https://i.imgur.com/yaDFgQK.jpeg', 'https://i.imgur.com/wXlmQPZ.jpeg', 'https://i.imgur.com/RfmJygm.jpeg']
+    imgs: ['https://i.imgur.com/yaDFgQK.jpeg', 'https://i.imgur.com/wXlmQPZ.jpeg', 'https://i.imgur.com/RfmJygm.jpeg'],
+    rating: null
   },
   {
     name: '프롬우주', location: '장미로156번길 10 / 도보 15분',
@@ -415,14 +419,16 @@ const cafes = [
     quote: '통창 자연광과 우주라떼, 달달 크로플까지! 계속 찾게 되는 분위기 좋은 카페.',
     recs: [{ name: '전지연', team: '물류팀' }],
     solo: true, together: true, times: ['오후', '퇴근 후', '주말'],
-    imgs: ['https://i.imgur.com/XhQffA7.jpeg', 'https://i.imgur.com/6COkaeT.jpeg', 'https://i.imgur.com/Ttl38ir.jpeg']
+    imgs: ['https://i.imgur.com/XhQffA7.jpeg', 'https://i.imgur.com/6COkaeT.jpeg', 'https://i.imgur.com/Ttl38ir.jpeg'],
+    rating: 4.9
   },
   {
     name: '카페위드송', location: '벌말로29번길 10 / 도보 15분',
     menu: ['바닐라빈라떼', '쌀초코칩쿠키'],
     quote: '글루텐프리 디저트도 판매! 주택가 사이 조용한 카페, 혼자 시간 보내기 딱.',
     recs: [{ name: '김현정', team: 'PI팀' }],
-    solo: true, together: false, times: ['퇴근 후', '주말'], imgs: []
+    solo: true, together: false, times: ['퇴근 후', '주말'], imgs: [],
+    rating: null
   },
   {
     name: '롱앤딥 커피', location: '도보 10분',
@@ -430,7 +436,8 @@ const cafes = [
     quote: '2년 넘게 즐겨온 나만의 비밀 아지트. 동료를 단 한 번도 마주친 적 없는 곳!',
     recs: [{ name: '김효정', team: '비서파트' }],
     solo: true, together: true, times: ['출근 전', '점심'],
-    imgs: ['https://i.imgur.com/TaDv8X4.jpeg', 'https://i.imgur.com/h02Vmw6.jpeg', 'https://i.imgur.com/GDvfDUS.jpeg']
+    imgs: ['https://i.imgur.com/TaDv8X4.jpeg', 'https://i.imgur.com/h02Vmw6.jpeg', 'https://i.imgur.com/GDvfDUS.jpeg'],
+    rating: 4.8
   },
   {
     name: '한방과건강 Cafe', location: '성남대로858번길 8 / 도보 5분',
@@ -438,7 +445,8 @@ const cafes = [
     quote: '인생은 한방, 건강은 쌍화차로! 건강도 챙기고 마음도 편안한 곳.',
     recs: [{ name: '조아라', team: 'QE' }],
     solo: true, together: true, times: ['점심', '오후', '주말'],
-    imgs: ['https://i.imgur.com/M6WWKXz.jpeg', 'https://i.imgur.com/zdOCnj8.jpeg', 'https://i.imgur.com/HeXeqee.jpeg']
+    imgs: ['https://i.imgur.com/M6WWKXz.jpeg', 'https://i.imgur.com/zdOCnj8.jpeg', 'https://i.imgur.com/HeXeqee.jpeg'],
+    rating: 4.2
   },
   {
     name: '탄커피', location: '양현로310번길 7 / 도보 8분',
@@ -446,14 +454,16 @@ const cafes = [
     quote: '야탑 거주 14년차가 말하는 커피 최강 맛집. 부모님 소개로 알게 된 진짜 동네 맛집!',
     recs: [{ name: '강준우', team: '개발QA파트' }],
     solo: true, together: false, times: ['점심'],
-    imgs: ['https://i.imgur.com/TVer3Gf.jpeg']
+    imgs: ['https://i.imgur.com/TVer3Gf.jpeg'],
+    rating: 5.0
   },
   {
     name: '르분당', location: '도보 10분',
     menu: ['애플 리본 크루이상'],
     quote: '지하 공간이 넓지만 아늑해요. 디저트로 유명한 곳!',
     recs: [{ name: '박채연', team: '전문솔루션팀' }],
-    solo: true, together: true, times: ['점심', '오후'], imgs: []
+    solo: true, together: true, times: ['점심', '오후'], imgs: [],
+    rating: 4.6
   },
   {
     name: '페이지 카페 파트너스', location: '장미로 86 1층 / 먹자골목 초입',
@@ -461,14 +471,16 @@ const cafes = [
     quote: '건강하게 소화 잘 되고 맛난 빵과 커피! 설탕을 안 써요.',
     recs: [{ name: '천홍재', team: '디자인팀' }],
     solo: true, together: true, times: ['오후', '퇴근 후'],
-    imgs: ['https://i.imgur.com/GiOPfdS.jpeg', 'https://i.imgur.com/z6NHkdx.jpeg']
+    imgs: ['https://i.imgur.com/GiOPfdS.jpeg', 'https://i.imgur.com/z6NHkdx.jpeg'],
+    rating: 4.0
   },
   {
     name: '필아웃커피', location: '벌말로39번길 9 / 도보 15분',
     menu: ['솔트크림라떼'],
     quote: '귀여운 강아지 자만추 가능! 단, 문을 일찍 닫아요.',
     recs: [{ name: '유정하', team: '시스템 2파트' }],
-    solo: true, together: true, times: ['주말'], imgs: []
+    solo: true, together: true, times: ['주말'], imgs: [],
+    rating: 3.8
   },
 ];
 
@@ -523,6 +535,19 @@ document.getElementById('lb').addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
+function renderStars(rating) {
+  if (rating === null) return `<span class="rating-none">카카오맵 정보 없음</span>`;
+  let html = '<div class="stars">';
+  for (let i = 1; i <= 5; i++) {
+    if (rating >= i) html += '<span class="star full">★</span>';
+    else if (rating >= i - 0.5) html += '<span class="star half">★</span>';
+    else html += '<span class="star empty">★</span>';
+  }
+  html += '</div>';
+  const color = rating >= 4.5 ? '#e07b2a' : rating >= 3.5 ? '#888' : '#aaa';
+  return `<div class="rating-row">${html}<span class="rating-num" style="color:${color}">${rating.toFixed(1)}</span><span class="rating-src">카카오맵</span></div>`;
+}
+
 function renderCard(cafe) {
   const r = cafe.recs[0];
   const col = ac(r.name);
@@ -556,6 +581,7 @@ function renderCard(cafe) {
       <div class="location">📍 ${cafe.location}</div>
       <div class="menus">${pills}</div>
       <div class="quote">${cafe.quote}</div>
+      ${renderStars(cafe.rating)}
       <div class="card-footer">
         <div class="recommender">
           <div class="avatar" style="background:${col.bg};color:${col.text}">${r.name[0]}</div>
