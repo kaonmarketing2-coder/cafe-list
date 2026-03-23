@@ -287,14 +287,14 @@
   .lb-info span { font-size: 13px; opacity: 0.6; }
 
   /* Rating */
-  .rating-row { display: flex; align-items: center; gap: 7px; }
-  .stars { display: flex; gap: 2px; }
-  .star { font-size: 13px; line-height: 1; }
+  .rating-row { display: inline-flex; align-items: center; gap: 5px; flex-wrap: nowrap; white-space: nowrap; }
+  .stars { display: inline-flex; gap: 1px; flex-shrink: 0; }
+  .star { font-size: 14px; line-height: 1; display: inline-block; }
   .star.full { color: #f5a623; }
   .star.half { color: #f5a623; opacity: 0.5; }
   .star.empty { color: #ddd; }
-  .rating-num { font-size: 13px; font-weight: 700; color: var(--text); }
-  .rating-src { font-size: 11px; color: var(--text3); }
+  .rating-num { font-size: 13px; font-weight: 700; flex-shrink: 0; }
+  .rating-src { font-size: 11px; color: var(--text3); flex-shrink: 0; }
   .rating-none { font-size: 12px; color: var(--text3); }
 
   .empty {
@@ -319,6 +319,12 @@
   <div class="eyebrow">가온 사내 뉴스레터 · 2026년 3월</div>
   <h1 class="site-title">야탑 숨은 카페 지도 ☕</h1>
   <p class="site-sub">임직원이 직접 추천하는 진짜 맛집 — 함께 가온</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">24</div><div class="stat-label">총 추천 수</div></div>
+    <div class="stat"><div class="stat-num">15</div><div class="stat-label">카페 수</div></div>
+    <div class="stat"><div class="stat-num">10</div><div class="stat-label">참여 팀</div></div>
+    <div class="stat"><div class="stat-num">5분~</div><div class="stat-label">사옥 최단 거리</div></div>
+  </div>
 </header>
 
 <div class="tabs-wrap">
@@ -537,15 +543,14 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
 
 function renderStars(rating) {
   if (rating === null) return `<span class="rating-none">카카오맵 정보 없음</span>`;
-  let html = '<div class="stars">';
+  let stars = '';
   for (let i = 1; i <= 5; i++) {
-    if (rating >= i) html += '<span class="star full">★</span>';
-    else if (rating >= i - 0.5) html += '<span class="star half">★</span>';
-    else html += '<span class="star empty">★</span>';
+    if (rating >= i) stars += '<span class="star full">★</span>';
+    else if (rating >= i - 0.5) stars += '<span class="star half">★</span>';
+    else stars += '<span class="star empty">★</span>';
   }
-  html += '</div>';
-  const color = rating >= 4.5 ? '#e07b2a' : rating >= 3.5 ? '#888' : '#aaa';
-  return `<div class="rating-row">${html}<span class="rating-num" style="color:${color}">${rating.toFixed(1)}</span><span class="rating-src">카카오맵</span></div>`;
+  const numColor = rating >= 4.5 ? '#e07b2a' : rating >= 3.5 ? '#666' : '#aaa';
+  return `<div class="rating-row"><div class="stars">${stars}</div><span class="rating-num" style="color:${numColor}">${rating.toFixed(1)}</span><span class="rating-src">카카오맵</span></div>`;
 }
 
 function renderCard(cafe) {
