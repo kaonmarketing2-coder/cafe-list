@@ -287,15 +287,15 @@
   .lb-info span { font-size: 13px; opacity: 0.6; }
 
   /* Rating */
-  .rating-row { display: inline-flex; align-items: center; gap: 5px; flex-wrap: nowrap; white-space: nowrap; }
-  .stars { display: inline-flex; gap: 1px; flex-shrink: 0; }
-  .star { font-size: 14px; line-height: 1; display: inline-block; }
+  .rating-row { display: inline-flex; align-items: center; gap: 5px; flex-wrap: nowrap; white-space: nowrap; width: fit-content; align-self: flex-start; }
+  .stars { display: inline-flex; gap: 1px; flex-shrink: 0; line-height: 1; }
+  .star { font-size: 14px; line-height: 1; display: inline-block; width: 14px; text-align: center; }
   .star.full { color: #f5a623; }
-  .star.half { color: #f5a623; opacity: 0.5; }
+  .star.half { color: #f5a623; opacity: 0.45; }
   .star.empty { color: #ddd; }
   .rating-num { font-size: 13px; font-weight: 700; flex-shrink: 0; }
   .rating-src { font-size: 11px; color: var(--text3); flex-shrink: 0; }
-  .rating-none { font-size: 12px; color: var(--text3); }
+  .rating-none { font-size: 12px; color: var(--text3); align-self: flex-start; }
 
   .empty {
     grid-column: 1 / -1;
