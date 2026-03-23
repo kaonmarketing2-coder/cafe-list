@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> KAON KREW PICK! 야탑 숨은 카페 모음zip </title>
+<title>야탑 숨은 카페 지도 — 가온</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
@@ -141,6 +141,26 @@
     border-color: #d4cfc9;
   }
   .card.has-img { cursor: pointer; }
+  .card.highlight {
+    border: 2px solid #c8622a;
+    box-shadow: 0 4px 20px rgba(200, 98, 42, 0.12);
+  }
+  .card.highlight:hover {
+    box-shadow: 0 8px 32px rgba(200, 98, 42, 0.2);
+    border-color: #c8622a;
+  }
+  .highlight-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    background: #c8622a;
+    padding: 3px 10px;
+    border-radius: 99px;
+    letter-spacing: 0.03em;
+  }
 
   /* Image strip */
   .img-strip {
@@ -313,9 +333,14 @@
 <body>
 
 <header class="site-header">
-  <div class="eyebrow"> 함께, 가온 · 2026년 4월</div>
-  <h1 class="site-title"> 야탑 숨은 카페 모음zip ☕</h1>
-  <p class="site-sub"> KAON KREW PICK! 임직원이 직접 추천하는 진짜 맛집 </p> 
+  <div class="eyebrow">가온 사내 뉴스레터 · 2026년 3월</div>
+  <h1 class="site-title">야탑 숨은 카페 지도 ☕</h1>
+  <p class="site-sub">임직원이 직접 추천하는 진짜 맛집 — 함께 가온</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">24</div><div class="stat-label">총 추천 수</div></div>
+    <div class="stat"><div class="stat-num">15</div><div class="stat-label">카페 수</div></div>
+    <div class="stat"><div class="stat-num">10</div><div class="stat-label">참여 팀</div></div>
+    <div class="stat"><div class="stat-num">5분~</div><div class="stat-label">사옥 최단 거리</div></div>
   </div>
 </header>
 
@@ -360,7 +385,7 @@ const cafes = [
     rating: 2.6
   },
   {
-    name: '카페 종화', location: '이매로89번길 24 / 차량 5분',
+    name: '카페 종화', highlight: true, location: '이매로89번길 24 / 차량 5분',
     menu: ['땅콩크림라떼'],
     quote: '인테리어가 예쁘고 엄청 큰 강아지가 있어서 진짜 나만 가고 싶지만…',
     recs: [{ name: '전태민', team: '공공지원팀' }],
@@ -412,7 +437,7 @@ const cafes = [
     rating: null
   },
   {
-    name: '프롬우주', location: '장미로156번길 10 / 도보 15분',
+    name: '프롬우주', highlight: true, location: '장미로156번길 10 / 도보 15분',
     menu: ['우주라떼', '크로플', '결식빵'],
     quote: '통창 자연광과 우주라떼, 달달 크로플까지! 계속 찾게 되는 분위기 좋은 카페.',
     recs: [{ name: '전지연', team: '물류팀' }],
@@ -429,7 +454,7 @@ const cafes = [
     rating: null
   },
   {
-    name: '롱앤딥 커피', location: '도보 10분',
+    name: '롱앤딥 커피', highlight: true, location: '도보 10분',
     menu: ['버터카라멜슈페너', '핸드드립 커피'],
     quote: '2년 넘게 즐겨온 나만의 비밀 아지트. 동료를 단 한 번도 마주친 적 없는 곳!',
     recs: [{ name: '김효정', team: '비서파트' }],
@@ -562,7 +587,7 @@ function renderCard(cafe) {
   }
 
   const card = document.createElement('div');
-  card.className = 'card' + (hasImg ? ' has-img' : '');
+  card.className = 'card' + (hasImg ? ' has-img' : '') + (cafe.highlight ? ' highlight' : '');
   card.innerHTML = `
     ${imgStrip}
     <div class="card-body">
@@ -570,6 +595,7 @@ function renderCard(cafe) {
         <div class="cafe-name">${cafe.name}</div>
         <span class="cafe-tag ${t.cls}">${t.label}</span>
       </div>
+      ${cafe.highlight ? `<div><span class="highlight-badge">✦ 이달의 추천 카페</span></div>` : ''}
       <div class="location">📍 ${cafe.location}</div>
       <div class="menus">${pills}</div>
       <div class="quote">${cafe.quote}</div>
