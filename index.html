@@ -203,8 +203,8 @@
   .card.has-img:hover .photo-hint-text { opacity: 1; }
 
   /* Card body */
-  .card-body { padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 9px; flex: 1; }
-  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .card-body { padding: 1rem 1.25rem; display: flex; flex-direction: column; align-items: flex-start; gap: 9px; flex: 1; width: 100%; }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; width: 100%; }
   .cafe-name { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.3; }
   .cafe-tag { font-size: 11px; padding: 3px 9px; border-radius: 99px; white-space: nowrap; flex-shrink: 0; font-weight: 500; }
   .tag-solo { background: #eaf3de; color: #3b6d11; }
@@ -216,11 +216,11 @@
   .menu-pill { font-size: 11px; background: var(--surface2); color: var(--text2); padding: 3px 9px; border-radius: 99px; }
   .quote {
     font-size: 12px; color: var(--text2); line-height: 1.7;
-    border-left: 2px solid #e0d8d0; padding-left: 10px; font-style: italic;
+    border-left: 2px solid #e0d8d0; padding-left: 10px; font-style: italic; width: 100%;
   }
   .card-footer {
     display: flex; align-items: center; justify-content: space-between;
-    border-top: 1px solid var(--border); padding-top: 10px; margin-top: auto;
+    border-top: 1px solid var(--border); padding-top: 10px; margin-top: auto; width: 100%;
   }
   .recommender { display: flex; align-items: center; gap: 8px; }
   .avatar {
@@ -287,15 +287,12 @@
   .lb-info span { font-size: 13px; opacity: 0.6; }
 
   /* Rating */
-  .rating-row { display: inline-flex; align-items: center; gap: 5px; flex-wrap: nowrap; white-space: nowrap; width: fit-content; align-self: flex-start; }
-  .stars { display: inline-flex; gap: 1px; flex-shrink: 0; line-height: 1; }
-  .star { font-size: 14px; line-height: 1; display: inline-block; width: 14px; text-align: center; }
-  .star.full { color: #f5a623; }
-  .star.half { color: #f5a623; opacity: 0.45; }
-  .star.empty { color: #ddd; }
-  .rating-num { font-size: 13px; font-weight: 700; flex-shrink: 0; }
-  .rating-src { font-size: 11px; color: var(--text3); flex-shrink: 0; }
-  .rating-none { font-size: 12px; color: var(--text3); align-self: flex-start; }
+  .rating-row { display: flex; flex-direction: row; align-items: center; gap: 5px; }
+  .stars-track { position: relative; display: inline-block; font-size: 15px; line-height: 1; letter-spacing: 1px; color: #e0dbd4; white-space: nowrap; flex-shrink: 0; }
+  .stars-fill { position: absolute; top: 0; left: 0; overflow: hidden; white-space: nowrap; color: #f5a623; }
+  .rating-num { font-size: 13px; font-weight: 700; flex-shrink: 0; line-height: 1; }
+  .rating-src { font-size: 11px; color: var(--text3); flex-shrink: 0; line-height: 1; }
+  .rating-none { font-size: 12px; color: var(--text3); }
 
   .empty {
     grid-column: 1 / -1;
@@ -542,15 +539,10 @@ document.getElementById('lb').addEventListener('click', e => {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
 function renderStars(rating) {
-  if (rating === null) return `<span class="rating-none">카카오맵 정보 없음</span>`;
-  let stars = '';
-  for (let i = 1; i <= 5; i++) {
-    if (rating >= i) stars += '<span class="star full">★</span>';
-    else if (rating >= i - 0.5) stars += '<span class="star half">★</span>';
-    else stars += '<span class="star empty">★</span>';
-  }
-  const numColor = rating >= 4.5 ? '#e07b2a' : rating >= 3.5 ? '#666' : '#aaa';
-  return `<div class="rating-row"><div class="stars">${stars}</div><span class="rating-num" style="color:${numColor}">${rating.toFixed(1)}</span><span class="rating-src">카카오맵</span></div>`;
+  if (rating === null) return `<div class="rating-row"><span class="rating-none">카카오맵 정보 없음</span></div>`;
+  const pct = (rating / 5 * 100).toFixed(1);
+  const numColor = rating >= 4.5 ? '#e07b2a' : rating >= 3.5 ? '#555' : '#aaa';
+  return `<div class="rating-row"><span class="stars-track">★★★★★<span class="stars-fill" style="width:${pct}%">★★★★★</span></span><span class="rating-num" style="color:${numColor}">${rating.toFixed(1)}</span><span class="rating-src">카카오맵</span></div>`;
 }
 
 function renderCard(cafe) {
